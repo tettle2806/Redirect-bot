@@ -1,19 +1,12 @@
-from aiogram import Router, F
+from aiogram import Router, F, Bot
 from aiogram.types import Message
-
 from keyboards.inline import ease_link_kb
-
+chats = [-1002389454663, -1002323150419]
 router = Router()
-
-async def echo_handler(message: Message) -> None:
-    """
-    Handler will forward receive a message back to the sender
-
-    By default, message handler will handle all message types (like a text, photo, sticker etc.)
-    """
-    try:
-        # Send a copy of the received message
-        await message.send_copy(chat_id=message.chat.id)
-    except TypeError:
-        # But not all the types is supported to be copied so need to handle it
-        await message.answer("Nice try!")
+@router.message()
+async def echo_handler(message: Message, bot: Bot) -> None:
+    text = message.text
+    chat_id = message.chat.id
+    print(f"Got message: {text} from chat: {chat_id}")
+    if chat_id == chats[0]:
+        await bot.send_message(text=text, chat_id=chats[1])
