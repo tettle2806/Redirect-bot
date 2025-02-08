@@ -11,6 +11,7 @@ from aiogram.types import Message
 from dotenv import load_dotenv
 
 from keyboards.reply import main_kb
+from handlers.add_chats import router as add_chats_router
 
 # Bot token can be obtained via https://t.me/BotFather
 load_dotenv()
@@ -19,7 +20,6 @@ TOKEN = getenv("BOT_TOKEN")
 # All handlers should be attached to the Router (or Dispatcher)
 
 dp = Dispatcher()
-
 
 
 @dp.message(CommandStart())
@@ -35,25 +35,13 @@ async def command_start_handler(message: Message) -> None:
     await message.answer(f"Hello, {html.bold(message.from_user.full_name)}!", reply_markup=main_kb())
 
 
-@dp.message()
-async def echo_handler(message: Message) -> None:
-    """
-    Handler will forward receive a message back to the sender
 
-    By default, message handler will handle all message types (like a text, photo, sticker etc.)
-    """
-    try:
-        # Send a copy of the received message
-        await message.send_copy(chat_id=message.chat.id)
-    except TypeError:
-        # But not all the types is supported to be copied so need to handle it
-        await message.answer("Nice try!")
 
 
 async def main() -> None:
     # Initialize Bot instance with default bot properties which will be passed to all API calls
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-
+    dp.include_router(add_chats_router)
     # And the run events dispatching
     await dp.start_polling(bot)
 
