@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 
 from keyboards.reply import main_kb
 from handlers.add_chats import router as add_chats_router
-
+from handlers.redirect import router as redirect_router
 # Bot token can be obtained via https://t.me/BotFather
 load_dotenv()
 TOKEN = getenv("BOT_TOKEN")
@@ -42,6 +42,7 @@ async def main() -> None:
     # Initialize Bot instance with default bot properties which will be passed to all API calls
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp.include_router(add_chats_router)
+    dp.include_router(redirect_router)
     # And the run events dispatching
     await dp.start_polling(bot)
 

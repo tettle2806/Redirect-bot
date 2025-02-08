@@ -3,7 +3,7 @@ from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
 def main_kb(user_telegram_id: int = None):
     kb_list = [
-        [KeyboardButton(text="➕ Добавить бота", url='https://t.me/redirect_m_bot?startgroup=start'), KeyboardButton(text="👤 Профиль")],
+        [KeyboardButton(text="➕ Добавить чат", url='https://t.me/redirect_m_bot?startgroup=start'), KeyboardButton(text="👤 Профиль")],
         [KeyboardButton(text="📝 Заполнить анкету"), KeyboardButton(text="📚 Каталог")]
     ]
     # if user_telegram_id in admins:
