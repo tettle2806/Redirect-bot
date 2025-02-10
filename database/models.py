@@ -1,7 +1,6 @@
 from sqlalchemy import Integer, Text, ForeignKey
 from sqlalchemy.orm import mapped_column, Mapped
-from base import Base
-
+from .base import Base
 
 class Message(Base):
 
