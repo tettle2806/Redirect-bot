@@ -11,7 +11,6 @@ def main_kb(user_telegram_id: int = None):
         [
             KeyboardButton(
                 text="➕ Добавить чат",
-
             ),
             KeyboardButton(text="👤 Профиль"),
         ],
