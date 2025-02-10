@@ -10,9 +10,9 @@ from aiogram.filters import CommandStart
 from aiogram.types import Message, ChatAdministratorRights
 from dotenv import load_dotenv
 
-from keyboards.reply import main_kb
 from handlers.add_chats import router as add_chats_router
 from handlers.redirect import router as redirect_router
+from keyboards.reply import main_kb
 
 # Bot token can be obtained via https://t.me/BotFather
 load_dotenv()
@@ -25,7 +25,7 @@ dp = Dispatcher()
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
-    await message.answer(f"Hello, {html.bold(message.from_user.full_name)}!")
+    await message.answer(f"Hello, {html.bold(message.from_user.full_name)}!", reply_markup=main_kb())
 
 
 from aiogram import F
@@ -42,87 +42,14 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
 @dp.message(Command("id"))
 async def get_id_handler(message: Message) -> None:
-    kb = ReplyKeyboardBuilder()
-    kb.row(
-        Button(
-            text="Chat",
-            request_chat=RequestChat(
-                request_id=1,
-                chat_is_created=True,
-                bot_is_member=True,
-                chat_is_channel=False,
-                user_administrator_rights=ChatAdministratorRights(
-                    is_anonymous=True,
-                    can_manage_chat=True,
-                    can_delete_messages=True,
-                    can_manage_video_chats=True,
-                    can_restrict_members=True,
-                    can_promote_members=True,
-                    can_change_info=True,
-                    can_invite_users=True,
-                    can_post_stories=True,
-                    can_edit_stories=True,
-                    can_delete_stories=True,
-                    can_post_messages=True,
-                    can_edit_messages=True,
-                    can_pin_messages=True,
-                    can_manage_topics=True,
-                ),
-                bot_administrator_rights=ChatAdministratorRights(
-                    is_anonymous=True,
-                    can_manage_chat=True,
-                    can_delete_messages=True,
-                    can_manage_video_chats=True,
-                    can_restrict_members=True,
-                    can_promote_members=True,
-                    can_change_info=True,
-                    can_invite_users=True,
-                    can_post_stories=True,
-                    can_edit_stories=True,
-                    can_delete_stories=True,
-                    can_post_messages=True,
-                    can_edit_messages=True,
-                    can_pin_messages=True,
-                    can_manage_topics=True,
-                ),
-            ),
-        ),
-        Button(
-            text="Channel",
-            request_chat=RequestChat(
-                request_id=2,
-                chat_is_channel=True,
-            ),
-        ),
-    )
-    kb.row(
-        Button(
-            text="User",
-            request_user=RequestUser(
-                request_id=3,
-                user_is_bot=False,
-            ),
-        ),
-        Button(
-            text="Bot",
-            request_user=RequestUser(
-                request_id=4,
-                user_is_bot=True,
-            ),
-        ),
-    )
-    await message.answer(
-        "<b>Выберите кнопку для получения id:\n\n"
-        "Для удаления клавиатуры -> /del</b>",
-        reply_markup=kb.as_markup(resize_keyboard=True),
-    )
+    await message.answer(f"Your ID: {message.from_user.id}")
 
 
 async def main() -> None:
     # Initialize Bot instance with default bot properties which will be passed to all API calls
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-    # dp.include_router(add_chats_router)
-    # dp.include_router(redirect_router)
+    dp.include_router(add_chats_router)
+    dp.include_router(redirect_router)
     # And the run events dispatching
     await dp.start_polling(bot)
 
