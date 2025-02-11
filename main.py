@@ -29,24 +29,6 @@ async def command_start_handler(message: Message) -> None:
         f"Hello, {html.bold(message.from_user.full_name)}!", reply_markup=main_kb()
     )
 
-
-from aiogram import F
-from aiogram.filters import Command
-from aiogram.types import (
-    KeyboardButton as Button,
-    KeyboardButtonRequestChat as RequestChat,
-    KeyboardButtonRequestUser as RequestUser,
-    Message,
-    ReplyKeyboardRemove as KeyboardRemove,
-)
-from aiogram.utils.keyboard import ReplyKeyboardBuilder
-
-
-@dp.message(Command("id"))
-async def get_id_handler(message: Message) -> None:
-    await message.answer(f"Your ID: {message.from_user.id}")
-
-
 async def main() -> None:
     # Initialize Bot instance with default bot properties which will be passed to all API calls
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))

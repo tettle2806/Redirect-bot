@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import (
     async_scoped_session,
 )
 
-from .config import settings
+from config.config import settings
 
 
 class DatabaseHelper:
