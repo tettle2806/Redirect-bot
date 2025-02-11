@@ -1,8 +1,8 @@
-"""add owner_id
+"""nullable constraint add
 
-Revision ID: 16ac71ef7ac2
+Revision ID: a33db19a0e4e
 Revises:
-Create Date: 2025-02-11 16:32:13.395519
+Create Date: 2025-02-11 17:16:48.920954
 
 """
 
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = "16ac71ef7ac2"
+revision: str = "a33db19a0e4e"
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -26,7 +26,7 @@ def upgrade() -> None:
         sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
         sa.Column("telegram_id", sa.Integer(), nullable=False),
         sa.Column("username", sa.String(length=32), nullable=False),
-        sa.Column("keyword", sa.String(length=300), nullable=False),
+        sa.Column("keyword", sa.String(length=300), nullable=True),
         sa.PrimaryKeyConstraint("id"),
         sa.UniqueConstraint("telegram_id"),
         sa.UniqueConstraint("username"),
