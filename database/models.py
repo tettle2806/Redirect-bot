@@ -24,6 +24,7 @@ class User(Base):
 
 class Chat(Base):
     telegram_id: Mapped[int] = mapped_column(Integer)
+    owner_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.telegram_id"))
     chat_name: Mapped[str] = mapped_column(String(32), unique=True)
     chat_type: Mapped[str] = mapped_column(String(32))
 
