@@ -1,7 +1,7 @@
-from aiogram import Router, F
+from aiogram import Router, Bot, F
 from aiogram.types import Message
 
-from keyboards.reply import main_kb
+from keyboards.reply import main_kb, type_of_chat
 
 router = Router()
 
@@ -29,7 +29,9 @@ async def test(message: Message, bot: F.Bot):
 
 
 @router.message(F.text == "🔐 Проверить права админа")
-async def check_admin_rights(message: Message, bot: F.Bot):
-    members = await bot.get_chat_administrators(chat_id=message.chat.id)
-    print(members)
-    await message.answer(f"Участники чата: {members}")
+async def check_admin_rights(message: Message, bot: Bot):
+    members = await bot.get_chat_member(chat_id=message.chat.id, user_id=7984318197)
+    if members.status == "administrator":
+        await message.answer(f"Выберите статус чата:", reply_markup=type_of_chat())
+    else:
+        await message.answer("У бота нету прав администратора!")
