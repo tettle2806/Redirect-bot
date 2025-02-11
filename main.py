@@ -12,6 +12,7 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import Message, ChatAdministratorRights
 from dotenv import load_dotenv
 
+from database.crud import insert_user
 from handlers.text_h import router as add_chats_router
 from handlers.redirect import router as redirect_router
 from keyboards.reply import main_kb, check_admin_rights
@@ -29,6 +30,7 @@ dp = Dispatcher(storage=MemoryStorage())
 @dp.message(CommandStart())
 async def command_start_handler(message: Message, state:FSMContext) -> None:
     if message.chat.type == "private":
+        await insert_user(telegram_id=message.from_user.id, username=message.from_user.username)
         await message.answer(
             f"Привет, {html.bold(message.from_user.full_name)}. "
             f"Данный бот предназначен для пересылки сообщений с одного чата в другой!",
