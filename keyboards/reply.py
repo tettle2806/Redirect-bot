@@ -42,8 +42,7 @@ def check_admin_rights():
     keyboard = ReplyKeyboardMarkup(
         keyboard=kb_list,
         resize_keyboard=True,
-        one_time_keyboard=True,
-        input_field_placeholder="Воспользуйтесь меню:",
+        input_field_placeholder="Че брат как дела?",
     )
     return keyboard
 
@@ -64,7 +63,7 @@ def type_of_chat():
         keyboard=kb_list,
         resize_keyboard=True,
         one_time_keyboard=True,
-        input_field_placeholder="Воспользуйтесь меню:",
+        input_field_placeholder="Одно из двух братан",
     )
     return keyboard
 
