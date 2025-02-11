@@ -7,12 +7,15 @@ from aiogram import Bot, Dispatcher, html
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import Message, ChatAdministratorRights
 from dotenv import load_dotenv
 
 from handlers.text_h import router as add_chats_router
 from handlers.redirect import router as redirect_router
 from keyboards.reply import main_kb, check_admin_rights
+from states.group import GroupState
 
 # Bot token can be obtained via https://t.me/BotFather
 load_dotenv()
@@ -20,11 +23,11 @@ TOKEN = getenv("BOT_TOKEN")
 
 # All handlers should be attached to the Router (or Dispatcher)
 
-dp = Dispatcher()
+dp = Dispatcher(storage=MemoryStorage())
 
 
 @dp.message(CommandStart())
-async def command_start_handler(message: Message) -> None:
+async def command_start_handler(message: Message, state:FSMContext) -> None:
     if message.chat.type == "private":
         await message.answer(
             f"Привет, {html.bold(message.from_user.full_name)}. "
@@ -33,6 +36,7 @@ async def command_start_handler(message: Message) -> None:
         )
     elif message.chat.type == "group" or message.chat.type == "supergroup":
         await message.answer("<b>Выдайте боту админские права!</b>", reply_markup=check_admin_rights())
+        await state.set_state(GroupState.check_admin_rights)
     else:
         await message.answer("Error")
 
