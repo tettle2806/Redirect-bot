@@ -1,7 +1,9 @@
 from aiogram import Router, Bot, F
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from keyboards.reply import main_kb, type_of_chat
+from states.group import GroupState
 
 router = Router()
 
@@ -28,10 +30,12 @@ async def test(message: Message, bot: F.Bot):
         await message.answer("Error")
 
 
-@router.message(F.text == "🔐 Проверить права админа")
-async def check_admin_rights(message: Message, bot: Bot):
+@router.message(GroupState.check_admin_rights)
+async def check_admin_rights(message: Message, bot: Bot, state: FSMContext):
     members = await bot.get_chat_member(chat_id=message.chat.id, user_id=7984318197)
     if members.status == "administrator":
         await message.answer(f"Выберите статус чата:", reply_markup=type_of_chat())
+        await state.set_state(GroupState.type_of_chat)
     else:
         await message.answer("У бота нету прав администратора!")
+        await state.set_state(GroupState.check_admin_rights)
