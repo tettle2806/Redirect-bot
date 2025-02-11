@@ -39,3 +39,13 @@ async def check_admin_rights(message: Message, bot: Bot, state: FSMContext):
     else:
         await message.answer("У бота нету прав администратора!")
         await state.set_state(GroupState.check_admin_rights)
+
+
+@router.message(GroupState.type_of_chat)
+async def save_type_of_chat(message: Message, state: FSMContext):
+    if message.text == "📥 Получатель":
+        await message.answer("📤 Отправитель")
+        await state.set_state(GroupState.sender)
+    elif message.text == "📥 Получатель":
+        await message.answer("📥 Получатель")
+        await state.set_state(GroupState.receiver)
