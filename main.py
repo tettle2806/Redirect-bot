@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 
 from handlers.text_h import router as add_chats_router
 from handlers.redirect import router as redirect_router
-from keyboards.reply import main_kb
+from keyboards.reply import main_kb, check_admin_rights
 
 # Bot token can be obtained via https://t.me/BotFather
 load_dotenv()
@@ -25,11 +25,18 @@ dp = Dispatcher()
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
-    await message.answer(
-        f"Привет, {html.bold(message.from_user.full_name)}. "
-        f"Данный бот предназначен для пересылки сообщений с одного чата в другой!",
-        reply_markup=main_kb(),
-    )
+    if message.chat.type == "private":
+        await message.answer(
+            f"Привет, {html.bold(message.from_user.full_name)}. "
+            f"Данный бот предназначен для пересылки сообщений с одного чата в другой!",
+            reply_markup=main_kb(),
+        )
+    elif message.chat.type == "group" or message.chat.type == "supergroup":
+        await message.answer("<b>Выдайте боту админские права!</b>", reply_markup=check_admin_rights())
+    else:
+        await message.answer("Error")
+
+
 
 
 async def main() -> None:
