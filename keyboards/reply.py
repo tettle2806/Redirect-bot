@@ -10,11 +10,14 @@ def main_kb(user_telegram_id: int = None):
     kb_list = [
         [
             KeyboardButton(
-                text="➕ Добавить чат",
+                text="ℹ️ Инструкция",
             ),
-            KeyboardButton(text="👤 Профиль"),
+            KeyboardButton(text="🔧 Фраза"),
         ],
-        [KeyboardButton(text="📝 Заполнить анкету"), KeyboardButton(text="📚 Каталог")],
+        [
+        KeyboardButton(text="📝 Отправить заявку"),
+         KeyboardButton(text="📊 Статистика"),
+        ],
     ]
     # if user_telegram_id in admins:
     #     kb_list.append([KeyboardButton(text="⚙️ Админ панель")])

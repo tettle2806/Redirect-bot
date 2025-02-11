@@ -10,7 +10,7 @@ from aiogram.filters import CommandStart
 from aiogram.types import Message, ChatAdministratorRights
 from dotenv import load_dotenv
 
-from handlers.add_chats import router as add_chats_router
+from handlers.text_h import router as add_chats_router
 from handlers.redirect import router as redirect_router
 from keyboards.reply import main_kb
 
@@ -26,8 +26,11 @@ dp = Dispatcher()
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
     await message.answer(
-        f"Hello, {html.bold(message.from_user.full_name)}!", reply_markup=main_kb()
+        f"Привет, {html.bold(message.from_user.full_name)}. "
+        f"Данный бот предназначен для пересылки сообщений с одного чата в другой!",
+        reply_markup=main_kb(),
     )
+
 
 async def main() -> None:
     # Initialize Bot instance with default bot properties which will be passed to all API calls
