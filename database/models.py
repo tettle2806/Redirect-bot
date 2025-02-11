@@ -11,6 +11,7 @@ class Message(Base):
 
 class User(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    telegram_id: Mapped[int] = mapped_column(Integer, unique=True)
     username: Mapped[str] = mapped_column(String(32), unique=True)
     keyword: Mapped[str] = mapped_column(String(300))
 
