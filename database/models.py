@@ -13,7 +13,7 @@ class User(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     telegram_id: Mapped[int] = mapped_column(Integer, unique=True)
     username: Mapped[str] = mapped_column(String(32), unique=True)
-    keyword: Mapped[str] = mapped_column(String(300))
+    keyword: Mapped[str] = mapped_column(String(300), default=None, nullable=True)
 
     def __str__(self):
         return f"{self.__class__.__name__}(id={self.id}, username={self.username!r})"
