@@ -29,31 +29,44 @@ dp = Dispatcher(storage=MemoryStorage())
 
 
 @dp.message(CommandStart())
-async def command_start_handler(message: Message, state:FSMContext) -> None:
+async def command_start_handler(message: Message, state: FSMContext) -> None:
     telegram_id = message.from_user.id
     user = await get_user(telegram_id=telegram_id)
-    print(user)
-    if user:
-        await message.answer(
-            f"Привет, {html.bold(message.from_user.full_name)}. "
-            f"Данный бот предназначен для пересылки сообщений с одного чата в другой!",
-            reply_markup=main_kb(),
-        )
-    else:
-        if message.chat.type == "private":
-            await insert_user(telegram_id=message.from_user.id, username=message.from_user.username)
+
+    if message.chat.type == "private":
+        if user:
             await message.answer(
                 f"Привет, {html.bold(message.from_user.full_name)}. "
                 f"Данный бот предназначен для пересылки сообщений с одного чата в другой!",
                 reply_markup=main_kb(),
             )
-        elif message.chat.type == "group" or message.chat.type == "supergroup":
-            await message.answer("<b>Выдайте боту админские права!</b>", reply_markup=check_admin_rights())
+        else:
+            await insert_user(
+                telegram_id=message.from_user.id, username=message.from_user.username
+            )
+            await message.answer(
+                f"Привет, {html.bold(message.from_user.full_name)}. "
+                f"Данный бот предназначен для пересылки сообщений с одного чата в другой!",
+                reply_markup=main_kb(),
+            )
+    elif message.chat.type == "group" or message.chat.type == "supergroup":
+        if user:
+            await message.answer(
+                "<b>Выдайте боту админские права!</b>",
+                reply_markup=check_admin_rights(),
+            )
             await state.set_state(GroupState.check_admin_rights)
         else:
-            await message.answer("Error")
-
-
+            await insert_user(
+                telegram_id=message.from_user.id, username=message.from_user.username
+            )
+            await message.answer(
+                "<b>Выдайте боту админские права!</b>",
+                reply_markup=check_admin_rights(),
+            )
+            await state.set_state(GroupState.check_admin_rights)
+    else:
+        await message.answer("Error")
 
 
 async def main() -> None:
