@@ -12,9 +12,10 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import Message, ChatAdministratorRights
 from dotenv import load_dotenv
 
-from database.crud import insert_user
+from database.crud import insert_user, get_user
 from handlers.text_h import router as add_chats_router
 from handlers.redirect import router as redirect_router
+from handlers.add_keyword import router as add_keyword_router
 from keyboards.reply import main_kb, check_admin_rights
 from states.group import GroupState
 
@@ -29,18 +30,28 @@ dp = Dispatcher(storage=MemoryStorage())
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message, state:FSMContext) -> None:
-    if message.chat.type == "private":
-        await insert_user(telegram_id=message.from_user.id, username=message.from_user.username)
+    telegram_id = message.from_user.id
+    user = await get_user(telegram_id=telegram_id)
+    print(user)
+    if user:
         await message.answer(
             f"Привет, {html.bold(message.from_user.full_name)}. "
             f"Данный бот предназначен для пересылки сообщений с одного чата в другой!",
             reply_markup=main_kb(),
         )
-    elif message.chat.type == "group" or message.chat.type == "supergroup":
-        await message.answer("<b>Выдайте боту админские права!</b>", reply_markup=check_admin_rights())
-        await state.set_state(GroupState.check_admin_rights)
     else:
-        await message.answer("Error")
+        if message.chat.type == "private":
+            await insert_user(telegram_id=message.from_user.id, username=message.from_user.username)
+            await message.answer(
+                f"Привет, {html.bold(message.from_user.full_name)}. "
+                f"Данный бот предназначен для пересылки сообщений с одного чата в другой!",
+                reply_markup=main_kb(),
+            )
+        elif message.chat.type == "group" or message.chat.type == "supergroup":
+            await message.answer("<b>Выдайте боту админские права!</b>", reply_markup=check_admin_rights())
+            await state.set_state(GroupState.check_admin_rights)
+        else:
+            await message.answer("Error")
 
 
 
@@ -50,6 +61,7 @@ async def main() -> None:
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp.include_router(add_chats_router)
     dp.include_router(redirect_router)
+    dp.include_router(add_keyword_router)
     # And the run events dispatching
     await dp.start_polling(bot)
 
