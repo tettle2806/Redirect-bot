@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, Text, ForeignKey, String
+from sqlalchemy import Integer, Text, ForeignKey, String, Boolean
 from sqlalchemy.orm import mapped_column, Mapped
 from .base import Base
 
@@ -21,6 +21,18 @@ class User(Base):
     def __repr__(self):
         return str(self)
 
+
+class Project(Base):
+    project_name: Mapped[str] = mapped_column(String(32), default='New Project')
+    sender_id: Mapped[int] = mapped_column(Integer, ForeignKey("chats.telegram_id"))
+    recipient_id: Mapped[int] = mapped_column(Integer, ForeignKey("chats.telegram_id"))
+    status: Mapped[bool] = mapped_column(Boolean, default=False)
+
+    def __str__(self):
+        return f"{self.__class__.__name__}(project_id={self.project_id}, project_name={self.project_name!r})"
+
+    def __repr__(self):
+        return str(self)
 
 class Chat(Base):
     telegram_id: Mapped[int] = mapped_column(Integer)
