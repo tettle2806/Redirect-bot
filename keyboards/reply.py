@@ -9,14 +9,17 @@ from aiogram.types import (
 def main_kb(user_telegram_id: int = None):
     kb_list = [
         [
+            KeyboardButton(text="📁 Мои проекты"),
+        ],
+        [
             KeyboardButton(
                 text="ℹ️ Инструкция",
             ),
             KeyboardButton(text="🔧 Фраза"),
         ],
         [
-        KeyboardButton(text="📝 Отправить заявку"),
-         KeyboardButton(text="📊 Статистика"),
+            KeyboardButton(text="📝 Отправить заявку"),
+            KeyboardButton(text="📊 Статистика"),
         ],
     ]
     # if user_telegram_id in admins:
@@ -28,6 +31,7 @@ def main_kb(user_telegram_id: int = None):
         input_field_placeholder="Воспользуйтесь меню:",
     )
     return keyboard
+
 
 def check_admin_rights():
     kb_list = [
@@ -46,15 +50,14 @@ def check_admin_rights():
     )
     return keyboard
 
+
 def type_of_chat():
     kb_list = [
         [
             KeyboardButton(
                 text="📤 Отправитель",
             ),
-            KeyboardButton(
-                text="📥 Получатель"
-            ),
+            KeyboardButton(text="📥 Получатель"),
         ]
     ]
     # if user_telegram_id in admins:
@@ -66,4 +69,3 @@ def type_of_chat():
         input_field_placeholder="Одно из двух братан",
     )
     return keyboard
-
