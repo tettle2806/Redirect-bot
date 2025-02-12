@@ -10,14 +10,22 @@ router = Router()
 
 @router.message(F.text == "ℹ️ Инструкция")
 async def reply_kb(message: Message):
-    await message.answer(f"Как начать пользоваться ботом?\n\n"
-                         f"<b>1. Добавьте бота в ваши чаты.</b>\n"
-                         f"<b>2. Выдайте админские права.</b>\n"
-                         f"<b>3. Укажите отправителя.</b>\n"
-                         f"<b>4. Укажите получателя.</b>\n"
-                         f"<b>5. Добавьте фразу для пересылки.</b>\n"
-                         f"<b>6. Начните пересылать сообщения.</b>\n",
-                         reply_markup=main_kb())
+    if message.chat.type == "private":
+        await message.answer(
+            f"Как начать пользоваться ботом?\n\n"
+            f"<b>1. Добавьте бота в ваши чаты.</b>\n"
+            f"<b>2. Выдайте админские права.</b>\n"
+            f"<b>3. Укажите отправителя.</b>\n"
+            f"<b>4. Укажите получателя.</b>\n"
+            f"<b>5. Добавьте фразу для пересылки.</b>\n"
+            f"<b>6. Начните пересылать сообщения.</b>\n",
+            reply_markup=main_kb(),
+        )
+    else:
+        await message.answer(
+            "Эту команду можно использовать только в личных сообщениях!"
+        )
+
 
 @router.message(GroupState.check_admin_rights)
 async def check_admin_rights(message: Message, bot: Bot, state: FSMContext):
