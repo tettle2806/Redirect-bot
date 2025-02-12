@@ -9,13 +9,14 @@ from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.types import Message, ChatAdministratorRights
+from aiogram.types import Message
 from dotenv import load_dotenv
 
 from database.crud import insert_user, get_user
 from handlers.text_h import router as add_chats_router
 from handlers.redirect import router as redirect_router
 from handlers.add_keyword import router as add_keyword_router
+from handlers.group import router as group_router
 from keyboards.reply import main_kb, check_admin_rights
 from states.group import GroupState
 
@@ -75,6 +76,7 @@ async def main() -> None:
     dp.include_router(add_chats_router)
     dp.include_router(redirect_router)
     dp.include_router(add_keyword_router)
+    dp.include_router(group_router)
     # And the run events dispatching
     await dp.start_polling(bot)
 
