@@ -23,7 +23,7 @@ class User(Base):
 
 
 class Project(Base):
-    project_name: Mapped[str] = mapped_column(String(32), default='New Project')
+    project_name: Mapped[str] = mapped_column(String(32), default="New Project")
     sender_id: Mapped[int] = mapped_column(Integer, ForeignKey("chats.telegram_id"))
     recipient_id: Mapped[int] = mapped_column(Integer, ForeignKey("chats.telegram_id"))
     status: Mapped[bool] = mapped_column(Boolean, default=False)
@@ -33,6 +33,7 @@ class Project(Base):
 
     def __repr__(self):
         return str(self)
+
 
 class Chat(Base):
     telegram_id: Mapped[int] = mapped_column(Integer)
