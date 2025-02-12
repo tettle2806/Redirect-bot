@@ -52,20 +52,9 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
             )
     elif message.chat.type == "group" or message.chat.type == "supergroup":
         if user:
-            await message.answer(
-                "<b>Выдайте боту админские права!</b>",
-                reply_markup=check_admin_rights(),
-            )
-            await state.set_state(GroupState.check_admin_rights)
-        else:
-            await insert_user(
-                telegram_id=message.from_user.id, username=message.from_user.username
-            )
-            await message.answer(
-                "<b>Выдайте боту админские права!</b>",
-                reply_markup=check_admin_rights(),
-            )
-            await state.set_state(GroupState.check_admin_rights)
+            chat_id = message.chat.id
+            print(message)
+            await message.answer(f"ID чата - {chat_id}")
     else:
         await message.answer("Error")
 
