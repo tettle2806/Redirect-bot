@@ -19,17 +19,6 @@ async def reply_kb(message: Message):
                          f"<b>6. Начните пересылать сообщения.</b>\n",
                          reply_markup=main_kb())
 
-
-@router.message(F.text == "🔧 Фраза")
-async def test(message: Message, bot: F.Bot):
-    if message.chat.type == "private":
-        await message.answer("Private chat")
-    elif message.chat.type == "group" or message.chat.type == "supergroup":
-        await message.answer("Group chat")
-    else:
-        await message.answer("Error")
-
-
 @router.message(GroupState.check_admin_rights)
 async def check_admin_rights(message: Message, bot: Bot, state: FSMContext):
     members = await bot.get_chat_member(chat_id=message.chat.id, user_id=7984318197)
