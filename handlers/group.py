@@ -6,5 +6,3 @@ from keyboards.reply import main_kb, type_of_chat
 from states.group import GroupState
 
 router = Router()
-
-

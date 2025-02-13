@@ -1,6 +1,5 @@
 from aiogram import Router, F, Bot
 from aiogram.types import Message
-from keyboards.inline import ease_link_kb
 
 chats = [-1002423502910, -1002388870808]
 router = Router()

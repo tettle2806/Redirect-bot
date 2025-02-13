@@ -13,11 +13,12 @@ router = Router()
 async def add_keyword(message: Message, state: FSMContext):
     if message.chat.type == "private":
 
-
-        await message.answer(f"🖍 Добавление подписи\n\n"
-                             f"Данная функция позволяет добавлять подписи в пересылаемые сообщения. "
-                             f"Можно вносить значения до 100 символов.:",
-                             reply_markup=add_captions())
+        await message.answer(
+            f"🖍 Добавление подписи\n\n"
+            f"Данная функция позволяет добавлять подписи в пересылаемые сообщения. "
+            f"Можно вносить значения до 100 символов.:",
+            reply_markup=add_captions(),
+        )
         await state.set_state(KeywordState.keyword)
     else:
         await message.answer(

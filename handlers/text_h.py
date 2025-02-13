@@ -8,10 +8,14 @@ from states.group import GroupState
 
 router = Router()
 
+
 @router.message(F.text == "📁 Мои проекты")
 async def my_projects(message: Message, state: FSMContext):
     if message.chat.type == "private":
-        await message.answer('Ваши проекты:\n\n', reply_markup=sender_receiver_btn(user_id=message.from_user.id))
+        await message.answer(
+            "Ваши проекты:\n\n",
+            reply_markup=sender_receiver_btn(user_id=message.from_user.id),
+        )
     else:
         await message.answer(
             "Эту команду можно использовать только в личных сообщениях!"
@@ -35,6 +39,3 @@ async def reply_kb(message: Message):
         await message.answer(
             "Эту команду можно использовать только в личных сообщениях!"
         )
-
-
-
