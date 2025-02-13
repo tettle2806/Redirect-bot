@@ -4,7 +4,9 @@ from aiogram.types import (
     KeyboardButtonRequestChat,
 )
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from sqlalchemy.util import await_only
 
+from database.crud import get_projects_by_telegram_id
 
 
 def main_kb():
@@ -13,6 +15,8 @@ def main_kb():
     builder.button(text="📁 Мои проекты", callback_data="my_projects")
     builder.button(text="🖍 Добавление подписи", callback_data="add_caption")
     builder.button(text="📝 Отправить заявку", callback_data="send_request")
+    builder.adjust(1)
+    return builder.as_markup()
 
 
 def sender_receiver_kb(user_id):
@@ -31,8 +35,18 @@ def sender_receiver_kb(user_id):
     return builder.as_markup()
 
 
-def add_captions():
+def add_captions_kb():
     builtins = InlineKeyboardBuilder()
     builtins.button(text="🖍 Добавление подписи", callback_data="add_caption")
     builtins.adjust(1)
+    return builtins.as_markup()
+
+async def my_projects_kb(telegram_id):
+    builtins = InlineKeyboardBuilder()
+    projects = await get_projects_by_telegram_id(telegram_id)
+    for project in projects:
+        builtins.button(text=project[0].project_name, callback_data=f"project_{project[0].id}")
+    builtins.button(text="➕ Добавить проект", callback_data="add_project")
+    builtins.button(text="🏡 Меню", callback_data="menu")
+    builtins.adjust(2)
     return builtins.as_markup()
