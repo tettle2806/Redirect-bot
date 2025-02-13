@@ -15,7 +15,7 @@ def main_kb(user_telegram_id: int = None):
             KeyboardButton(
                 text="ℹ️ Инструкция",
             ),
-            KeyboardButton(text="🔧 Фраза"),
+            KeyboardButton(text="🖍 Добавление подписи"),
         ],
         [
             KeyboardButton(text="📝 Отправить заявку"),
