@@ -27,3 +27,11 @@ async def update_keyword(telegram_id: int, keyword: str):
         )
         await session.execute(stmt)
         await session.commit()
+
+async def get_projects_by_telegram_id(telegram_id: int):
+    async with db_helper.session_factory() as session:
+        stmt = select(Project).where(Project.owner_id == telegram_id)
+        projects = await session.execute(stmt)
+        projects = projects.fetchall()
+        return projects
+
