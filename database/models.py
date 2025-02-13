@@ -33,7 +33,7 @@ class Project(Base):
     keyword: Mapped[str] = mapped_column(String(100), default=None, nullable=True)
 
     def __str__(self):
-        return f"{self.__class__.__name__}(project_id={self.project_id}, project_name={self.project_name!r})"
+        return f"{self.__class__.__name__}(project_id={self.id}, project_name={self.project_name!r})"
 
     def __repr__(self):
         return str(self)
