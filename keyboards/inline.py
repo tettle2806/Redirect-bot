@@ -6,7 +6,16 @@ from aiogram.types import (
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
-def sender_receiver_btn(user_id):
+
+def main_kb():
+    builder = InlineKeyboardBuilder()
+    builder.button(text="ℹ️ Инструкция", callback_data="instruction")
+    builder.button(text="📁 Мои проекты", callback_data="my_projects")
+    builder.button(text="🖍 Добавление подписи", callback_data="add_caption")
+    builder.button(text="📝 Отправить заявку", callback_data="send_request")
+
+
+def sender_receiver_kb(user_id):
     builder = InlineKeyboardBuilder()
     builder.button(
         text="Отправитель",
