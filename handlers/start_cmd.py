@@ -14,7 +14,7 @@ from handlers.text_h import router as add_chats_router
 from handlers.redirect import router as redirect_router
 from handlers.add_keyword import router as add_keyword_router
 from handlers.group import router as group_router
-from keyboards.reply import main_kb, check_admin_rights
+from keyboards.inline import main_kb
 from states.group import GroupState
 
 

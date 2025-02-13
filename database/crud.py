@@ -1,7 +1,7 @@
 from sqlalchemy import select, update
 
 from database.db_helper import db_helper
-from database.models import User
+from database.models import User, Project
 
 
 async def get_user(telegram_id: int):
@@ -23,7 +23,7 @@ async def insert_user(telegram_id: int, username: str):
 async def update_keyword(telegram_id: int, keyword: str):
     async with db_helper.session_factory() as session:
         stmt = (
-            update(User).where(User.telegram_id == telegram_id).values(keyword=keyword)
+            update(Project).where(User.telegram_id == telegram_id).values(keyword=keyword)
         )
         await session.execute(stmt)
         await session.commit()

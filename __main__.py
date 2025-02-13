@@ -9,7 +9,7 @@ from handlers.redirect import router as redirect_router
 from handlers.add_keyword import router as add_keyword_router
 from handlers.group import router as group_router
 from handlers.start_cmd import router as start_router
-
+from handlers.project import router as project_router
 
 async def main() -> None:
     dp.include_router(add_chats_router)
@@ -17,6 +17,7 @@ async def main() -> None:
     dp.include_router(add_keyword_router)
     dp.include_router(group_router)
     dp.include_router(start_router)
+    dp.include_router(project_router)
 
 
     await dp.start_polling(bot)
