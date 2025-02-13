@@ -3,13 +3,13 @@ import logging
 import sys
 from os import getenv
 
-from aiogram import Bot, Dispatcher, html
+from aiogram import Bot, Dispatcher, html, F
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 from dotenv import load_dotenv
 
 from database.crud import insert_user, get_user
@@ -52,9 +52,10 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
             )
     elif message.chat.type == "group" or message.chat.type == "supergroup":
         if user:
-            chat_id = message.chat.id
-            print(message)
-            await message.answer(f"ID чата - {chat_id}")
+            """
+                Нужно написать функцию для добавления чата в бд 
+            """
+
     else:
         await message.answer("Error")
 
