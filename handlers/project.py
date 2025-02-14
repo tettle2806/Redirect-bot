@@ -26,16 +26,6 @@ async def my_projects(call: CallbackQuery, state: FSMContext):
         await call.answer("Эту команду можно использовать только в личных сообщениях!")
 
 
-@router.callback_query(F.data == "add_project")
-async def add_project(call: CallbackQuery):
-    if call.message.chat.type == "private":
-        await call.message.answer(
-            "➕ Добавить проект",
-            reply_markup=sender_receiver_kb(user_id=call.from_user.id),
-        )
-        await call.message.delete()
-    else:
-        await call.answer("Эту команду можно использовать только в личных сообщениях!")
 
 
 @router.callback_query(lambda call: call.data.startswith("project_"))
@@ -53,8 +43,8 @@ async def project(call: CallbackQuery):
 @router.callback_query(lambda call: call.data.startswith("on_"))
 async def project_on(call: CallbackQuery, bot: Bot):
     project_id = int(call.data.split("_")[1])
-    project_info = await get_projects_by_id(project_id)
     await update_project_status(project_id, False)
+    project_info = await get_projects_by_id(project_id)
     await bot.edit_message_reply_markup(
         chat_id=call.message.chat.id,
         message_id=call.message.message_id,
@@ -65,8 +55,8 @@ async def project_on(call: CallbackQuery, bot: Bot):
 @router.callback_query(lambda call: call.data.startswith("off_"))
 async def project_off(call: CallbackQuery, bot: Bot):
     project_id = int(call.data.split("_")[1])
-    project_info = await get_projects_by_id(project_id)
     await update_project_status(project_id, True)
+    project_info = await get_projects_by_id(project_id)
     await bot.edit_message_reply_markup(
         chat_id=call.message.chat.id,
         message_id=call.message.message_id,
