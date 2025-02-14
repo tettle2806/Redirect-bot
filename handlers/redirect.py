@@ -5,8 +5,8 @@ chats = [-1002423502910, -1002388870808]
 router = Router()
 
 
-@router.message()
-async def echo_handler(message: Message, bot: Bot) -> None:
-    await message.answer(message.text)
-    print(message)
+@router.message(F.animation)
+async def redirect_animation(message: Message, bot: Bot):
+    cid = message.animation.file_id
+    await message.answer(f"ID: {cid}")
 
