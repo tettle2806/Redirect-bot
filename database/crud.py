@@ -38,13 +38,19 @@ async def get_projects_by_telegram_id(telegram_id: int):
         projects = projects.fetchall()
         return projects
 
-
-async def get_projects_id():
+async def get_projects_by_id(project_id: int) -> Project:
     async with db_helper.session_factory() as session:
-        stmt = select(Project.id)
+        stmt = select(Project).where(Project.id == project_id)
         projects = await session.execute(stmt)
-        projects = projects.fetchall()
-        id_array = []
-        for i in projects:
-            id_array.append(i[0])
-        print(id_array)
+        projects = projects.scalar()
+        return projects
+
+async def update_project_status(project_id: int, status: bool):
+    async with db_helper.session_factory() as session:
+        stmt = (
+            update(Project)
+            .where(Project.id == project_id)
+            .values(status=status)
+        )
+        await session.execute(stmt)
+        await session.commit()

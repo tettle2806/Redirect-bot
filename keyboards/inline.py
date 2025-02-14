@@ -65,7 +65,7 @@ def back_kb():
     return builtins.as_markup()
 
 
-def project_menu(status):
+def project_menu(status, project_id):
     if status:
         status = "🟢 Проект включен"
         data = "on"
@@ -73,7 +73,7 @@ def project_menu(status):
         status = "🔴 Проект выключен"
         data = "off"
     builtins = InlineKeyboardBuilder()
-    builtins.button(text=f"{status}", callback_data=data)
+    builtins.button(text=f"{status}", callback_data=f"{data}_{project_id}")
     builtins.button(text="🌐 Подключение чатов", callback_data="connect_chats")
     builtins.button(text="📋 Переименовать проект", callback_data="connect_chats")
     builtins.button(text="🗑️ Удалить проект", callback_data="delete_project")
