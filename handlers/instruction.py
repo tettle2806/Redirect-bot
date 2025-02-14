@@ -1,6 +1,8 @@
 from aiogram import F, Router
 from aiogram.types import CallbackQuery
 
+from keyboards.inline import back_kb
+
 router = Router()
 
 
@@ -18,4 +20,5 @@ async def show_instruction(call: CallbackQuery):
 🔹 Создайте свою группу/канал в Telegram. Добавьте ее в список получателя.
 🔹 Добавьте подпись к сообщению, которое будет отправлено в ваш группу/канал.
     """
-    await call.message.answer(text)
+    await call.message.answer(text=text, reply_markup=back_kb())
+    await call.message.delete()

@@ -37,15 +37,21 @@ async def command_start_handler(message: Message, state: FSMContext, bot: Bot) -
                 f"⚠️ При настройке бота читай инструкцию!",
                 reply_markup=main_kb(),
             )
+            await message.delete()
         else:
             await insert_user(
                 telegram_id=telegram_id, username=message.from_user.username
             )
-            await message.answer(
-                f"Привет, {html.bold(message.from_user.full_name)}. "
-                f"Данный бот предназначен для пересылки сообщений с одного чата в другой!",
+            await bot.send_animation(
+                telegram_id,
+                "CgACAgQAAxkBAAICHmevC4rEx4aj_I-IvwX_XdrQaGfqAALyAgACHh8NU8Q9ccqBIvztNgQ",
+                caption=f"👋 Привет, {html.bold(message.from_user.full_name)}.\n\n"
+                f"Создай свою новостную ленту с помощью этого бота. "
+                f"Выбери интересные источники и бот перешлет их посты в твою группу/канал/форум.\n\n"
+                f"⚠️ При настройке бота читай инструкцию!",
                 reply_markup=main_kb(),
             )
+            await message.delete()
     elif message.chat.type == "group" or message.chat.type == "supergroup":
         if user:
             """
@@ -57,8 +63,15 @@ async def command_start_handler(message: Message, state: FSMContext, bot: Bot) -
 
 
 @router.callback_query(F.data == "menu")
-async def show_menu(call: CallbackQuery) -> None:
-    text = """
-    👋 Привет! Создай свою новостную ленту с помощью этого бота. Выбери интересные источники и бот перешлет их посты в твою группу/канал/форум.
-    """
-    await call.message.answer(text, reply_markup=main_kb())
+async def show_menu(call: CallbackQuery, bot: Bot) -> None:
+    telegram_id = call.from_user.id
+    await bot.send_animation(
+        telegram_id,
+        "CgACAgQAAxkBAAICHmevC4rEx4aj_I-IvwX_XdrQaGfqAALyAgACHh8NU8Q9ccqBIvztNgQ",
+        caption=f"👋 Привет, {html.bold(call.message.from_user.full_name)}.\n\n"
+        f"Создай свою новостную ленту с помощью этого бота. "
+        f"Выбери интересные источники и бот перешлет их посты в твою группу/канал/форум.\n\n"
+        f"⚠️ При настройке бота читай инструкцию!",
+        reply_markup=main_kb(),
+    )
+    await call.message.delete()
