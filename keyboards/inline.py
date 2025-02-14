@@ -77,5 +77,6 @@ def project_menu(status, project_id):
     builtins.button(text="🌐 Подключение чатов", callback_data="connect_chats")
     builtins.button(text="📋 Переименовать проект", callback_data="connect_chats")
     builtins.button(text="🗑️ Удалить проект", callback_data="delete_project")
+    builtins.button(text="🏡 Меню", callback_data="menu")
     builtins.adjust(1)
     return builtins.as_markup()

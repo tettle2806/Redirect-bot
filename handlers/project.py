@@ -44,22 +44,26 @@ async def project(call: CallbackQuery):
     project_info = await get_projects_by_id(project_id)
     print(project_info)
     await call.message.answer(
-        f"Проект: {project_info}",
+        f"Проект: <b>{project_info.project_name}</b>",
         reply_markup=project_menu(project_info.status, project_info.id),
     )
+    await call.message.delete()
+
 
 @router.callback_query(lambda call: call.data.startswith("on_"))
 async def project_on(call: CallbackQuery, bot: Bot):
     project_id = int(call.data.split("_")[1])
+    project_info = await get_projects_by_id(project_id)
     await update_project_status(project_id, False)
-    await bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=project_menu(False, project_id))
+    await bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=project_menu(project_info.status, project_id))
 
 
 @router.callback_query(lambda call: call.data.startswith("off_"))
 async def project_off(call: CallbackQuery, bot: Bot):
     project_id = int(call.data.split("_")[1])
+    project_info = await get_projects_by_id(project_id)
     await update_project_status(project_id, True)
-    await bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=project_menu(False, project_id))
+    await bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=project_menu(project_info.status, project_id))
 
 
 
