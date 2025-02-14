@@ -38,6 +38,7 @@ async def get_projects_by_telegram_id(telegram_id: int):
         projects = projects.fetchall()
         return projects
 
+
 async def get_projects_by_id(project_id: int) -> Project:
     async with db_helper.session_factory() as session:
         stmt = select(Project).where(Project.id == project_id)
@@ -45,12 +46,17 @@ async def get_projects_by_id(project_id: int) -> Project:
         projects = projects.scalar()
         return projects
 
+
+async def create_project(owner_id: int):
+    async with db_helper.session_factory() as session:
+        project = Project(owner_id=owner_id)
+        session.add(project)
+        await session.commit()
+        return project
+
+
 async def update_project_status(project_id: int, status: bool):
     async with db_helper.session_factory() as session:
-        stmt = (
-            update(Project)
-            .where(Project.id == project_id)
-            .values(status=status)
-        )
+        stmt = update(Project).where(Project.id == project_id).values(status=status)
         await session.execute(stmt)
         await session.commit()

@@ -55,7 +55,11 @@ async def project_on(call: CallbackQuery, bot: Bot):
     project_id = int(call.data.split("_")[1])
     project_info = await get_projects_by_id(project_id)
     await update_project_status(project_id, False)
-    await bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=project_menu(project_info.status, project_id))
+    await bot.edit_message_reply_markup(
+        chat_id=call.message.chat.id,
+        message_id=call.message.message_id,
+        reply_markup=project_menu(project_info.status, project_id),
+    )
 
 
 @router.callback_query(lambda call: call.data.startswith("off_"))
@@ -63,7 +67,8 @@ async def project_off(call: CallbackQuery, bot: Bot):
     project_id = int(call.data.split("_")[1])
     project_info = await get_projects_by_id(project_id)
     await update_project_status(project_id, True)
-    await bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=project_menu(project_info.status, project_id))
-
-
-
+    await bot.edit_message_reply_markup(
+        chat_id=call.message.chat.id,
+        message_id=call.message.message_id,
+        reply_markup=project_menu(project_info.status, project_id),
+    )
