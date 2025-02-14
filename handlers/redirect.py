@@ -9,4 +9,3 @@ router = Router()
 async def redirect_animation(message: Message, bot: Bot):
     cid = message.animation.file_id
     await message.answer(f"ID: {cid}")
-

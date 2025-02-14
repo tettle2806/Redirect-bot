@@ -23,10 +23,13 @@ async def insert_user(telegram_id: int, username: str):
 async def update_keyword(telegram_id: int, keyword: str):
     async with db_helper.session_factory() as session:
         stmt = (
-            update(Project).where(User.telegram_id == telegram_id).values(keyword=keyword)
+            update(Project)
+            .where(User.telegram_id == telegram_id)
+            .values(keyword=keyword)
         )
         await session.execute(stmt)
         await session.commit()
+
 
 async def get_projects_by_telegram_id(telegram_id: int):
     async with db_helper.session_factory() as session:
@@ -34,4 +37,3 @@ async def get_projects_by_telegram_id(telegram_id: int):
         projects = await session.execute(stmt)
         projects = projects.fetchall()
         return projects
-

@@ -22,7 +22,7 @@ router = Router()
 
 
 @router.message(CommandStart())
-async def command_start_handler(message: Message, state: FSMContext, bot:Bot) -> None:
+async def command_start_handler(message: Message, state: FSMContext, bot: Bot) -> None:
     telegram_id = message.from_user.id
     user = await get_user(telegram_id=telegram_id)
 
@@ -30,12 +30,12 @@ async def command_start_handler(message: Message, state: FSMContext, bot:Bot) ->
         if user:
             await bot.send_animation(
                 telegram_id,
-    "CgACAgQAAxkBAAICHmevC4rEx4aj_I-IvwX_XdrQaGfqAALyAgACHh8NU8Q9ccqBIvztNgQ",
+                "CgACAgQAAxkBAAICHmevC4rEx4aj_I-IvwX_XdrQaGfqAALyAgACHh8NU8Q9ccqBIvztNgQ",
                 caption=f"👋 Привет, {html.bold(message.from_user.full_name)}.\n\n"
                 f"Создай свою новостную ленту с помощью этого бота. "
-                        f"Выбери интересные источники и бот перешлет их посты в твою группу/канал/форум.\n\n"
-                        f"⚠️ При настройке бота читай инструкцию!",
-                reply_markup=main_kb()
+                f"Выбери интересные источники и бот перешлет их посты в твою группу/канал/форум.\n\n"
+                f"⚠️ При настройке бота читай инструкцию!",
+                reply_markup=main_kb(),
             )
         else:
             await insert_user(
@@ -54,12 +54,11 @@ async def command_start_handler(message: Message, state: FSMContext, bot:Bot) ->
 
     else:
         await message.answer("Error")
+
+
 @router.callback_query(F.data == "menu")
 async def show_menu(call: CallbackQuery) -> None:
     text = """
     👋 Привет! Создай свою новостную ленту с помощью этого бота. Выбери интересные источники и бот перешлет их посты в твою группу/канал/форум.
     """
-    await call.message.answer(text , reply_markup=main_kb())
-
-
-
+    await call.message.answer(text, reply_markup=main_kb())

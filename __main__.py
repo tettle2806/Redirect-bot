@@ -13,7 +13,6 @@ from handlers.project import router as project_router
 from handlers.instruction import router as instruction_router
 
 
-
 async def main() -> None:
     dp.include_router(add_chats_router)
     dp.include_router(redirect_router)
@@ -23,12 +22,15 @@ async def main() -> None:
     dp.include_router(start_router)
     dp.include_router(project_router)
 
-
     await dp.start_polling(bot)
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, stream=sys.stdout, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    logging.basicConfig(
+        level=logging.INFO,
+        stream=sys.stdout,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    )
     logging.getLogger().handlers[0].setFormatter(ColoredFormatter())
     try:
         asyncio.run(main())
