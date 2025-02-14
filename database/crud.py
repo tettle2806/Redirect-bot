@@ -37,3 +37,14 @@ async def get_projects_by_telegram_id(telegram_id: int):
         projects = await session.execute(stmt)
         projects = projects.fetchall()
         return projects
+
+
+async def get_projects_id():
+    async with db_helper.session_factory() as session:
+        stmt = select(Project.id)
+        projects = await session.execute(stmt)
+        projects = projects.fetchall()
+        id_array = []
+        for i in projects:
+            id_array.append(i[0])
+        print(id_array)
