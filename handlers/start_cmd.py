@@ -50,3 +50,12 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
 
     else:
         await message.answer("Error")
+@router.callback_query(F.data == "menu")
+async def show_menu(call: CallbackQuery) -> None:
+    text = """
+    👋 Привет! Создай свою новостную ленту с помощью этого бота. Выбери интересные источники и бот перешлет их посты в твою группу/канал/форум.
+    """
+    await call.message.answer(text , reply_markup=main_kb())
+
+
+
