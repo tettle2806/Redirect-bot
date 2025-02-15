@@ -5,6 +5,7 @@ from aiogram.types import Message, CallbackQuery
 from keyboards.inline import main_kb, sender_receiver_kb
 from states.group import GroupState
 from database.crud import get_projects_by_telegram_id, get_projects_by_id
+
 router = Router()
 
 
@@ -26,4 +27,6 @@ async def connect_chats(call: CallbackQuery):
 📥 Чат получатель:
 ⁨{project_info.recipient_name}⁩
     """
-    await call.message.answer(text, reply_markup=sender_receiver_kb(project_id=project_id, user_id=user_id))
+    await call.message.answer(
+        text, reply_markup=sender_receiver_kb(project_id=project_id, user_id=user_id)
+    )

@@ -14,6 +14,7 @@ from handlers.delete_project import router as delete_project_router
 from handlers.group import router as group_router
 from handlers.text import router as text_router
 
+
 async def main() -> None:
     dp.include_router(redirect_router)
     dp.include_router(instruction_router)

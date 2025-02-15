@@ -17,13 +17,16 @@ async def delete_project(call: F.CallbackQuery, state: FSMContext):
     )
     await call.message.delete()
 
+
 @router.callback_query(lambda call: call.data.startswith("delete_yes_"))
 async def delete_yes(call: CallbackQuery):
     project_id = int(call.data.split("_")[2])
     await delete_project_by_id(project_id)
     await call.message.delete()
-    await call.message.answer("Проект удален", reply_markup=await my_projects_kb(telegram_id=call.from_user.id))
-
+    await call.message.answer(
+        "Проект удален",
+        reply_markup=await my_projects_kb(telegram_id=call.from_user.id),
+    )
 
 
 @router.callback_query(lambda call: call.data.startswith("delete_no_"))

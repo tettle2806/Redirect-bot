@@ -82,15 +82,13 @@ async def delete_project_by_id(project_id: int):
         await session.commit()
         return project
 
+
 async def update_sender_id(project_id: int, sender_id: int, sender_name: str):
     async with db_helper.session_factory() as session:
         stmt = (
             update(Project)
             .where(Project.id == project_id)
-            .values(
-                sender_id=sender_id,
-                sender_name=sender_name
-                    )
+            .values(sender_id=sender_id, sender_name=sender_name)
         )
         await session.execute(stmt)
         await session.commit()
