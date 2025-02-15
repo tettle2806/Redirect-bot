@@ -75,6 +75,7 @@ async def change_project_name(call: CallbackQuery, state: FSMContext):
     )
     await state.update_data(project_id=project_id)
     await state.set_state(GroupState.project_name)
+    await call.message.delete()
 
 
 @router.message(GroupState.project_name)
@@ -93,3 +94,15 @@ async def change_project_name(message: Message, state: FSMContext):
     )
 
     await message.delete()
+
+
+@router.callback_query(lambda call: call.data.startswith("backtoproject_"))
+async def back_to_project_cb(call: CallbackQuery, state: FSMContext):
+    project_id = int(call.data.split("_")[1])
+    project_info = await get_projects_by_id(project_id)
+    await call.message.answer(
+        f"Проект: <b>{project_info.project_name}</b>",
+        reply_markup=project_menu(project_info.status, project_id),
+    )
+    await state.clear()
+    await call.message.delete()
