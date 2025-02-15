@@ -13,9 +13,9 @@ async def message_handler(message: Message, bot: Bot):
     elif message.chat.type == "group" or message.chat.type == "supergroup":
         chat_id = message.chat.id
         chat_info = await get_chats_by_chat_id(chat_id)
+        project_info = await get_projects_by_id(chat_info.project_id)
         if chat_info:
-            if chat_info.chat_type == "sender":
-                project_info = await get_projects_by_id(chat_info.project_id)
+            if chat_info.chat_type == "sender" and project_info.status:
                 if project_info.keyword:
                     text = f"{message.text}\n\n{project_info.keyword}"
                 else:

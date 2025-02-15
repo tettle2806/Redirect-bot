@@ -86,7 +86,7 @@ async def command_start_handler(message: Message, state: FSMContext, bot: Bot) -
                 elif chat_type == "receiver":
                     await update_receiver_id(
                         project_id=project_id,
-                        recipient_id=group_id,
+                        recipient_id=chat_id,
                         recipient_name=chat_name,
                     )
                     await message.answer(
