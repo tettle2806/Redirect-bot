@@ -21,9 +21,9 @@ async def connect_chats(call: CallbackQuery):
 Аккаунт пересылки: Системный
 
 📤 Чат отправитель:
-⁨{project_info.sender_id}⁩
+⁨{project_info.sender_name}⁩
 --------------------
 📥 Чат получатель:
-⁨{project_info.recipient_id}⁩
+⁨{project_info.recipient_name}⁩
     """
     await call.message.answer(text, reply_markup=sender_receiver_kb(project_id=project_id, user_id=user_id))
