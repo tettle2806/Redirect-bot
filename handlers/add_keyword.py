@@ -22,7 +22,7 @@ async def add_caption(call: CallbackQuery, state: FSMContext):
     await state.set_state(KeywordState.keyword)
 
 
-@router.message(state=KeywordState.keyword)
+@router.message(KeywordState.keyword)
 async def update_keyword(message: Message, state: FSMContext):
     data = await state.get_data()
     await update_project_keyword(project_id=data["project_id"], keyword=message.text)
