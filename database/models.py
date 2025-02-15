@@ -26,7 +26,9 @@ class Project(Base):
     project_name: Mapped[str] = mapped_column(String(32), default="New Project")
     owner_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.telegram_id"))
     sender_id: Mapped[int] = mapped_column(Integer, nullable=True)
+    sender_name: Mapped[str] = mapped_column(String(32), nullable=True)
     recipient_id: Mapped[int] = mapped_column(Integer, nullable=True)
+    recipient_name: Mapped[str] = mapped_column(String(32), nullable=True)
     status: Mapped[bool] = mapped_column(Boolean, default=False)
     keyword: Mapped[str] = mapped_column(String(100), default=None, nullable=True)
 
