@@ -66,7 +66,7 @@ async def update_project_name(project_id: int, project_name: str):
     async with db_helper.session_factory() as session:
         stmt = (
             update(Project)
-            .where(Project.id == project_id)
+            .where(Project.recipient_id == project_id)
             .values(project_name=project_name)
         )
         await session.execute(stmt)
@@ -81,3 +81,30 @@ async def delete_project_by_id(project_id: int):
         await session.delete(project)
         await session.commit()
         return project
+
+async def update_sender_id(project_id: int, sender_id: int, sender_name: str):
+    async with db_helper.session_factory() as session:
+        stmt = (
+            update(Project)
+            .where(Project.id == project_id)
+            .values(
+                sender_id=sender_id,
+                sender_name=sender_name
+                    )
+        )
+        await session.execute(stmt)
+        await session.commit()
+
+
+async def update_receiver_id(project_id: int, recipient_id: int, recipient_name: str):
+    async with db_helper.session_factory() as session:
+        stmt = (
+            update(Project)
+            .where(Project.id == project_id)
+            .values(
+                recipient_id=recipient_id,
+                recipient_name=recipient_name,
+            )
+        )
+        await session.execute(stmt)
+        await session.commit()
