@@ -94,3 +94,12 @@ def project_menu(status, project_id):
     builtins.button(text="🏡 Меню", callback_data="menu")
     builtins.adjust(1)
     return builtins.as_markup()
+
+
+
+def delete_project_kb(project_id):
+    builtins = InlineKeyboardBuilder()
+    builtins.button(text="✅ Да", callback_data=f"delete_yes_{project_id}")
+    builtins.button(text="❌ Нет", callback_data=f"delete_no_{project_id}")
+    builtins.adjust(1)
+    return builtins.as_markup()
