@@ -60,3 +60,14 @@ async def update_project_status(project_id: int, status: bool):
         stmt = update(Project).where(Project.id == project_id).values(status=status)
         await session.execute(stmt)
         await session.commit()
+
+
+async def update_project_name(project_id: int, project_name: str):
+    async with db_helper.session_factory() as session:
+        stmt = (
+            update(Project)
+            .where(Project.id == project_id)
+            .values(project_name=project_name)
+        )
+        await session.execute(stmt)
+        await session.commit()
