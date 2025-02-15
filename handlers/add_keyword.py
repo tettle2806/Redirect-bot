@@ -1,34 +1,33 @@
-from aiogram import Router, F
+from aiogram import Router
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 
-from database.crud import update_keyword
-from keyboards.inline import add_captions_kb
+from database.crud import update_project_keyword
+from keyboards.inline import back_to_project, my_projects_kb
 from states.private import KeywordState
 
 router = Router()
 
 
-# @router.message(F.text == "🖍 Добавление подписи")
-# async def add_keyword(message: Message, state: FSMContext):
-#     if message.chat.type == "private":
-#
-#         await message.answer(
-#             f"🖍 Добавление подписи\n\n"
-#             f"Данная функция позволяет добавлять подписи в пересылаемые сообщения. "
-#             f"Можно вносить значения до 100 символов.:",
-#             reply_markup=add_captions_kb(),
-#         )
-#         await state.set_state(KeywordState.keyword)
-#     else:
-#         await message.answer(
-#             "Эту команду можно использовать только в личных сообщениях!"
-#         )
-#
-#
-# @router.message(KeywordState.keyword)
-# async def add_keyword_in_db(message: Message):
-#     keyword = message.text
-#     telegram_id = message.from_user.id
-#     await update_keyword(keyword=keyword, telegram_id=telegram_id)
-#     await message.answer(f"Фраза <b>{keyword}</b> обновлена!")
+@router.callback_query(lambda call: call.data.startswith("add_caption_"))
+async def add_caption(call: CallbackQuery, state: FSMContext):
+    project_id = int(call.data.split("_")[2])
+    await call.message.answer(
+        f"<b>🖍 Добавление подписи</b>\n\n"
+        f"Данная функция позволяет добавлять подписи в пересылаемые сообщения. "
+        f"Можно вносить значения до 100 символов.\n\n",
+        reply_markup=back_to_project(project_id),
+    )
+    await state.update_data(project_id=project_id)
+    await state.set_state(KeywordState.keyword)
+
+
+@router.message(state=KeywordState.keyword)
+async def update_keyword(message: Message, state: FSMContext):
+    data = await state.get_data()
+    await update_project_keyword(project_id=data["project_id"], keyword=message.text)
+    await state.clear()
+    await message.answer(
+        "Подпись успешно добавлена!",
+        reply_markup=await my_projects_kb(message.from_user.id),
+    )

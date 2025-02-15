@@ -16,7 +16,6 @@ def main_kb():
         callback_data="instruction",
     )
     builder.button(text="📁 Мои проекты", callback_data="my_projects")
-    builder.button(text="🖍 Добавление подписи", callback_data="add_caption")
     builder.button(text="📝 Отправить заявку", callback_data="send_request")
     builder.adjust(1)
     return builder.as_markup()
@@ -92,6 +91,9 @@ def project_menu(status, project_id):
     )
     builtins.button(
         text="🗑️ Удалить проект", callback_data=f"deleteproject_{project_id}"
+    )
+    builtins.button(
+        text="🖍 Добавление подписи", callback_data=f"add_caption_{project_id}"
     )
     builtins.button(text="🏡 Меню", callback_data="menu")
     builtins.adjust(1)

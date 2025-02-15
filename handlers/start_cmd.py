@@ -14,7 +14,8 @@ from database.crud import (
     get_user,
     update_sender_id,
     get_projects_by_id,
-    update_receiver_id, create_chat,
+    update_receiver_id,
+    create_chat,
 )
 from handlers.add_keyword import router as add_keyword_router
 from handlers.group import router as group_router
@@ -69,7 +70,12 @@ async def command_start_handler(message: Message, state: FSMContext, bot: Bot) -
                     f"chat_type: {chat_type}, user_id: {user_id}, project_id: {project_id}, group_id: {chat_id}"
                 )
                 project_info = await get_projects_by_id(project_id)
-                await create_chat(chat_id=chat_id, chat_name=chat_name, chat_type=chat_type, project_id=project_id)
+                await create_chat(
+                    chat_id=chat_id,
+                    chat_name=chat_name,
+                    chat_type=chat_type,
+                    project_id=project_id,
+                )
                 if chat_type == "sender":
                     await update_sender_id(
                         project_id=project_id, sender_id=chat_id, sender_name=chat_name
