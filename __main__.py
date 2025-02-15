@@ -12,6 +12,7 @@ from handlers.instruction import router as instruction_router
 from handlers.add_project import router as add_project_router
 from handlers.delete_project import router as delete_project_router
 from handlers.group import router as group_router
+from handlers.text import router as text_router
 
 async def main() -> None:
     dp.include_router(redirect_router)
@@ -22,6 +23,7 @@ async def main() -> None:
     dp.include_router(project_router)
     dp.include_router(add_project_router)
     dp.include_router(delete_project_router)
+    dp.include_router(text_router)
 
     await dp.start_polling(bot)
 

@@ -37,3 +37,16 @@ class Project(Base):
 
     def __repr__(self):
         return str(self)
+
+
+class Chat(Base):
+    chat_id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    chat_name: Mapped[str] = mapped_column(String(32))
+    chat_type: Mapped[str] = mapped_column(String(32))
+    project_id: Mapped[int] = mapped_column(Integer, ForeignKey("projects.id"))
+
+    def __str__(self):
+        return f"{self.__class__.__name__}(chat_id={self.chat_id}, chat_name={self.chat_name!r})"
+
+    def __repr__(self):
+        return str(self)
