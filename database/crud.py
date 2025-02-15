@@ -71,3 +71,13 @@ async def update_project_name(project_id: int, project_name: str):
         )
         await session.execute(stmt)
         await session.commit()
+
+
+async def delete_project_by_id(project_id: int):
+    async with db_helper.session_factory() as session:
+        stmt = select(Project).where(Project.id == project_id)
+        project = await session.execute(stmt)
+        project = project.scalar()
+        await session.delete(project)
+        await session.commit()
+        return project
