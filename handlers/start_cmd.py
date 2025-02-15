@@ -14,7 +14,7 @@ from database.crud import (
     get_user,
     update_sender_id,
     get_projects_by_id,
-    update_receiver_id,
+    update_receiver_id, create_chat,
 )
 from handlers.add_keyword import router as add_keyword_router
 from handlers.group import router as group_router
@@ -63,15 +63,16 @@ async def command_start_handler(message: Message, state: FSMContext, bot: Bot) -
                 chat_type = text[3]
                 user_id = text[4]
                 project_id = int(text[5])
-                group_id = message.chat.id
+                chat_id = int(message.chat.id)
                 chat_name = message.chat.title
                 print(
-                    f"chat_type: {chat_type}, user_id: {user_id}, project_id: {project_id}, group_id: {group_id}"
+                    f"chat_type: {chat_type}, user_id: {user_id}, project_id: {project_id}, group_id: {chat_id}"
                 )
                 project_info = await get_projects_by_id(project_id)
+                await create_chat(chat_id=chat_id, chat_name=chat_name, chat_type=chat_type, project_id=project_id)
                 if chat_type == "sender":
                     await update_sender_id(
-                        project_id=project_id, sender_id=group_id, sender_name=chat_name
+                        project_id=project_id, sender_id=chat_id, sender_name=chat_name
                     )
                     await message.answer(
                         f"✅ Отправитель добавлен к проекту ⁨{project_info.project_name}⁩"

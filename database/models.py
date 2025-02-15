@@ -40,7 +40,7 @@ class Project(Base):
 
 
 class Chat(Base):
-    chat_id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    chat_id: Mapped[int] = mapped_column(Integer)
     chat_name: Mapped[str] = mapped_column(String(32))
     chat_type: Mapped[str] = mapped_column(String(32))
     project_id: Mapped[int] = mapped_column(Integer, ForeignKey("projects.id"))

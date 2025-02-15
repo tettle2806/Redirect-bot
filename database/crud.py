@@ -1,7 +1,7 @@
 from sqlalchemy import select, update
 
 from database.db_helper import db_helper
-from database.models import User, Project
+from database.models import User, Project, Chat
 
 
 async def get_user(telegram_id: int):
@@ -106,3 +106,11 @@ async def update_receiver_id(project_id: int, recipient_id: int, recipient_name:
         )
         await session.execute(stmt)
         await session.commit()
+
+
+async def create_chat(chat_id: int, chat_name: str, chat_type: str, project_id: int):
+    async with db_helper.session_factory() as session:
+        chat = Chat(chat_id=chat_id, chat_name=chat_name, chat_type=chat_type, project_id=project_id)
+        session.add(chat)
+        await session.commit()
+        return chat
