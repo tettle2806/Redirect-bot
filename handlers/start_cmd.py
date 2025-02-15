@@ -52,9 +52,7 @@ async def command_start_handler(message: Message, state: FSMContext, bot: Bot) -
             await message.delete()
     elif message.chat.type == "group" or message.chat.type == "supergroup":
         if user:
-            """
-            Нужно написать функцию для добавления чата в бд
-            """
+            print(message.text)
 
     else:
         await message.answer("Error")
