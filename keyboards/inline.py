@@ -22,17 +22,17 @@ def main_kb():
     return builder.as_markup()
 
 
-def sender_receiver_kb(user_id):
+def sender_receiver_kb(user_id, project_id):
     builder = InlineKeyboardBuilder()
     builder.button(
         text="Отправитель",
         callback_data="sender",
-        url=f"tg://resolve?domain=redirect_m_bot&startgroup=sender{user_id}&admin=change_info+post_messages+edit_messages+pin_messages",
+        url=f"tg://resolve?domain=redirect_m_bot&startgroup=sender_{user_id}_{project_id}&admin=change_info+post_messages+edit_messages+pin_messages",
     )
     builder.button(
         text="Получатель",
         callback_data="receiver",
-        url=f"tg://resolve?domain=redirect_m_bot&startgroup=receiver{user_id}&admin=change_info+post_messages+edit_messages+pin_messages",
+        url=f"tg://resolve?domain=redirect_m_bot&startgroup=receiver_{user_id}_{project_id}&admin=change_info+post_messages+edit_messages+pin_messages",
     )
     builder.adjust(1)
     return builder.as_markup()

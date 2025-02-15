@@ -75,6 +75,7 @@ async def change_project_name(call: CallbackQuery, state: FSMContext):
     )
     await state.update_data(project_id=project_id)
     await state.set_state(GroupState.project_name)
+    await state.update_data(message_id=call.message.message_id)
     await call.message.delete()
 
 
@@ -92,7 +93,6 @@ async def change_project_name(message: Message, state: FSMContext):
         f"Проект: <b>{project_info.project_name}</b>",
         reply_markup=project_menu(project_info.status, project_id["project_id"]),
     )
-
     await message.delete()
 
 

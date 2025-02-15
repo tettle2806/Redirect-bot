@@ -4,18 +4,16 @@ import sys
 
 
 from config.config import dp, bot, ColoredFormatter
-from handlers.text_h import router as add_chats_router
 from handlers.redirect import router as redirect_router
 from handlers.add_keyword import router as add_keyword_router
-from handlers.group import router as group_router
 from handlers.start_cmd import router as start_router
 from handlers.project import router as project_router
 from handlers.instruction import router as instruction_router
 from handlers.add_project import router as add_project_router
 from handlers.delete_project import router as delete_project_router
+from handlers.group import router as group_router
 
 async def main() -> None:
-    dp.include_router(add_chats_router)
     dp.include_router(redirect_router)
     dp.include_router(instruction_router)
     dp.include_router(add_keyword_router)

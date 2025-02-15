@@ -10,8 +10,6 @@ from aiogram.types import Message, CallbackQuery
 from dotenv import load_dotenv
 
 from database.crud import insert_user, get_user
-from handlers.text_h import router as add_chats_router
-from handlers.redirect import router as redirect_router
 from handlers.add_keyword import router as add_keyword_router
 from handlers.group import router as group_router
 from keyboards.inline import main_kb
