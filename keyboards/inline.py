@@ -46,6 +46,7 @@ def add_captions_kb():
 
 
 async def my_projects_kb(telegram_id):
+    button = InlineKeyboardButton(text="🏡 Меню", callback_data="menu")
     builtins = InlineKeyboardBuilder()
     projects = await get_projects_by_telegram_id(telegram_id)
     for project in projects:
@@ -53,14 +54,21 @@ async def my_projects_kb(telegram_id):
             text=project[0].project_name, callback_data=f"project_{project[0].id}"
         )
     builtins.button(text="➕ Добавить проект", callback_data="add_project")
-    builtins.button(text="🏡 Меню", callback_data="menu")
     builtins.adjust(2, 2)
+    builtins.row(button)
     return builtins.as_markup()
 
 
 def back_kb():
     builtins = InlineKeyboardBuilder()
     builtins.button(text="🏡 Меню", callback_data="menu")
+    builtins.adjust(1)
+    return builtins.as_markup()
+
+
+def back_to_project(project_id: int):
+    builtins = InlineKeyboardBuilder()
+    builtins.button(text="<< Назад", callback_data=f"backtoproject_{project_id}")
     builtins.adjust(1)
     return builtins.as_markup()
 
@@ -74,9 +82,15 @@ def project_menu(status, project_id):
         data = "off"
     builtins = InlineKeyboardBuilder()
     builtins.button(text=f"{status}", callback_data=f"{data}_{project_id}")
-    builtins.button(text="🌐 Подключение чатов", callback_data="connect_chats")
-    builtins.button(text="📋 Переименовать проект", callback_data="connect_chats")
-    builtins.button(text="🗑️ Удалить проект", callback_data="delete_project")
+    builtins.button(
+        text="🌐 Подключение чатов", callback_data=f"connectchats_{project_id}"
+    )
+    builtins.button(
+        text="📋 Переименовать проект", callback_data=f"changeprojectname_{project_id}"
+    )
+    builtins.button(
+        text="🗑️ Удалить проект", callback_data=f"deleteproject_{project_id}"
+    )
     builtins.button(text="🏡 Меню", callback_data="menu")
     builtins.adjust(1)
     return builtins.as_markup()
