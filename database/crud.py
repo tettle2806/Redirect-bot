@@ -66,7 +66,7 @@ async def update_project_name(project_id: int, project_name: str):
     async with db_helper.session_factory() as session:
         stmt = (
             update(Project)
-            .where(Project.recipient_id == project_id)
+            .where(Project.id == project_id)
             .values(project_name=project_name)
         )
         await session.execute(stmt)
