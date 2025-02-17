@@ -8,6 +8,9 @@ router = Router()
 
 @router.message()
 async def message_handler(message: Message, bot: Bot):
+    print("-------------------------")
+    print(message.text)
+    print("-------------------------")
     if message.chat.type == "private":
         await message.answer("Не балуйся! 😊😊")
     elif message.chat.type == "group" or message.chat.type == "supergroup":
