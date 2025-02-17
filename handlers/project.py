@@ -83,6 +83,9 @@ async def change_project_name(call: CallbackQuery, state: FSMContext):
 async def change_project_name(message: Message, state: FSMContext):
     project_id = await state.get_data()
     project_name = message.text
+    print("___________________________________")
+    print(project_id, project_name)
+    print("___________________________________")
     await state.clear()
     await update_project_name(
         project_id=project_id["project_id"], project_name=project_name
