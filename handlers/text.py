@@ -1,16 +1,19 @@
 from aiogram import Router, Bot
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery, Update
 
 from database.crud import get_chats_by_chat_id, get_projects_by_id
 
 router = Router()
 
+@router.chat_join_request()
+async def chat_join_request_handler(update:Update, bot: Bot):
+    print("-------------------------")
+    print(update)
+    print("-------------------------")
+
 
 @router.message()
 async def message_handler(message: Message, bot: Bot):
-    print("-------------------------")
-    print(message)
-    print("-------------------------")
     if message.chat.type == "private":
         await message.answer("Не балуйся! 😊😊")
     elif message.chat.type == "group" or message.chat.type == "supergroup":
