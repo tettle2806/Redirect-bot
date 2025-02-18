@@ -26,7 +26,7 @@ def sender_receiver_kb(user_id, project_id):
     builder.button(
         text="📤 Отправитель",
         callback_data="sender",
-        url=f"tg://resolve?domain=redirect_m_bot&startgroup=_sender_{user_id}_{project_id}_&admin=change_info+post_messages+edit_messages+pin_messages",
+        url=f"t.me/redirect_m_bot?startgroup=_sender_{user_id}_{project_id}_&admin=change_info+post_messages+edit_messages+pin_messages",
     )
     builder.button(
         text="📥 Получатель",

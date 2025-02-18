@@ -9,7 +9,7 @@ router = Router()
 @router.message()
 async def message_handler(message: Message, bot: Bot):
     print("-------------------------")
-    print(message.text)
+    print(message)
     print("-------------------------")
     if message.chat.type == "private":
         await message.answer("Не балуйся! 😊😊")
