@@ -27,5 +27,6 @@ async def message_handler(message: Message, bot: Bot):
                 else:
                     text = message.text
                 await bot.send_message(chat_id=project_info.recipient_id, text=text)
+                await
         else:
             await message.answer("Группа не добавлена в проект! ????")
